@@ -1,38 +1,65 @@
+ <!DOCTYPE html>
+ <html lang="en">
 
-<!DOCTYPE html>
-<html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+ </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+ <body>
+     <button id="btn">点击支付</button>
+     <script>
+         const btn = document.getElementById('btn');
 
-<body>
-  <button id="btn">点击支付</button>
-  <button id="btn1">点击支付</button>
-  <script>
-    const btn = document.getElementById('btn');
+         function once(fn) {
+             let isDone = false;
+             return function (...num) {
+                 if (isDone) return;
+                 fn.apply(this, num)
+                 isDone = true;
+             }
+         }
 
-    // c
-    let flag = true
-    let flag2 = true;
+         // -----------业务代码
 
-    btn.addEventListener('click', function () {
-      this.disabled = false;
-      if (!flag) return;
-      pay(5);
-      flag = false;
-    });
+         const pay = once(function (money, dollar, t) {
+             console.log(this);
 
-    // 闭包
+             console.log(`支付成功了${money}元,${dollar}$,${t}t`);
+         })
+         const obj = {
+             name: '黑马'
+         }
+         obj.pay = pay;
+         btn.addEventListener('click', function () {
+             obj.pay(5, 10, 15)
+         })
 
-    function pay(money) {
-      console.log(`支付成功${money}元`);
-    }
 
-  </script>
-</body>
 
-</html>
+         console.log('=----------------------------------------------=');
+         //按照定义二的说法，嵌套在foo函数里的bar函数就是闭包
+         function foo() {
+             var a = 2;
+
+             function bar() {
+                 console.log(a); // 2
+             } bar();
+          
+         }
+          foo();
+
+
+
+          console.log('=----------------------------------------------=');
+
+          let len=233;
+
+          let arr=new Array(len-1).fill(0);
+          console.log(arr);
+     </script>
+ </body>
+
+ </html>
